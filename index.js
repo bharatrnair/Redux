@@ -12,9 +12,16 @@ const reducer =(state =[],action)=>{
 
 const store = createStore(reducer);
 
+store.subscribe(()=>{
+    console.log(store.getState());
+});
+
 store.dispatch({
     type:"ADD_TODO",
     payload:"Learn Redux"
 });
 
-console.log(store.getState());
+store.dispatch({
+    type:"ADD_TODO",
+    payload:"Learn React"
+});
