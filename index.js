@@ -1,5 +1,5 @@
 const redux = require("redux");
-const {createStore, combineReducers} = redux;
+const {createStore, combineReducers, applyMiddleware } = redux;
 
 const todo =(state =[],action)=>{
     switch (action.type){
@@ -27,7 +27,24 @@ const reducer = combineReducers({
     todo,
     counter,
 });
-const store = createStore(reducer);
+
+const middle = (store) => (next) => (action) => {
+    if(action.payload) {
+        action.payload = action.payload + "!";
+    }
+    const nextValue = next(action);
+    return nextValue;
+};
+
+const store = createStore(
+    reducer,
+    {
+        todo: [],
+        counter: 0,
+    },
+    applyMiddleware(middle)
+    
+    );
 
 
 store.subscribe(()=>{
